@@ -11,7 +11,7 @@ This project is an end-to-end Machine Learning application that predicts whether
 It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to handle severe class imbalance (less than 1% of asteroids are hazardous), and runs a **Random Forest Classifier** to assess impact risk. The model is deployed via a user-friendly **Streamlit** web interface.
 
 ### 📸 Project Demo
-![Demo Screenshot](assets/demo.png)
+![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png)
 
 ---
 
