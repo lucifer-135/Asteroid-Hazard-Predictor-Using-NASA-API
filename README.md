@@ -52,3 +52,19 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 ```bash
 git clone [https://github.com/yourusername/nasa-asteroid-predictor.git](https://github.com/yourusername/nasa-asteroid-predictor.git)
 cd nasa-asteroid-predictor
+```
+
+### Step 2: Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Configure your API Key
+* Open the train_model.py file.
+* Look for the line: ```API_KEY = 'YOUR_API_KEY_HERE'```
+* Paste your actual NASA key inside the quotes.
+
+### Step 4: Launch the App
+```bash
+streamlit run app.py
+```
