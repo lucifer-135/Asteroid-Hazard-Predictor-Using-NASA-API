@@ -50,8 +50,8 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 ### Step 1: Clone the Repository
 ```bash
-git clone [https://github.com/yourusername/nasa-asteroid-predictor.git](https://github.com/yourusername/nasa-asteroid-predictor.git)
-cd nasa-asteroid-predictor
+git clone https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API.git
+cd Asteroid-Hazard-Predictor-Using-NASA-API
 ```
 
 ### Step 2: Install dependencies
