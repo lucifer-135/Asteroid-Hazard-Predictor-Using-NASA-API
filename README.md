@@ -1,4 +1,4 @@
-# ☄️ Asteroid Hazard Predictor Using NASA API
+# ☄️ Asteroid Hazard Predictor Using NASA API and MACHINE LEARNING
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red)
