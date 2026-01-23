@@ -27,7 +27,7 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 ## ⚙️ Key Features & Methodology
 
-### 1. Automated Data Pipeline (`etl_script.py`)
+### 1. Automated Data Pipeline (`train_model.pynb`)
 * Connected to the NASA API to fetch 8 weeks of historical asteroid data.
 * Parsed complex nested JSON responses into a structured Pandas DataFrame.
 * Extracted key physical features: `Absolute Magnitude`, `Estimated Diameter`, `Relative Velocity`, and `Miss Distance`.
