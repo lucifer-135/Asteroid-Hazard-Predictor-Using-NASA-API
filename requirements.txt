@@ -4,5 +4,6 @@ requests
 scikit-learn
 imbalanced-learn
 streamlit
+altair<5
 matplotlib
 seaborn
