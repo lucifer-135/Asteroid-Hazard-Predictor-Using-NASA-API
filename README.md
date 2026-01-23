@@ -20,7 +20,7 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 * **Data Source:** [NASA NeoWs REST API](https://api.nasa.gov/)
 * **Machine Learning:** Scikit-Learn (Random Forest), Imbalanced-Learn (SMOTE)
 * **Data Processing:** Pandas, NumPy
-* **Frontend/Deployment:** Streamlit
+* **Frontend:** Streamlit
 * **Serialization:** Pickle
 
 ---
