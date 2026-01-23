@@ -12,7 +12,11 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 ### 📸 Project Demo
 ![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png)
+
+# Asteroid is Safe !
 ![Safe Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/Safe.png)
+
+# Asteroid is Hazardous !!!
 ![Hazardous Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/hazardous.png)
 
 ---
