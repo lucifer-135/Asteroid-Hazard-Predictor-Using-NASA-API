@@ -4,7 +4,7 @@ import numpy as np
 import os
 
 # Set up the page layout
-st.set_page_config(page_title="Asteroid Risk Evaluator", page_icon="☄️", layout="centered")
+st.set_page_config(page_title="Asteroid Hazard Predictor", page_icon="☄️", layout="centered")
 
 
 @st.cache_resource
@@ -26,12 +26,11 @@ with st.sidebar:
         """
         **NASA NeoWs Data Analysis**
         
-        This tool utilizes a Random Forest model to assess the potential threat 
-        of Near-Earth Objects based on trajectory and physical properties.
+        This tool utilizes a Random Forest Classifier model and SMOTE technique to assess the potential threat of Near-Earth Objects based on trajectory and physical properties.
         """
     )
     st.write("---")
-    st.caption("Dev: SHIVANSH GAUTAM")
+    st.caption("Made By: SHIVANSH GAUTAM")
 
 # Main Interface
 st.title("☄️ Asteroid Hazard Predictor Using NASA API")
@@ -80,11 +79,12 @@ if st.button("Run Risk Assessment 🚀", use_container_width=True):
             confidence = probs[1] * 100
             st.error(f"🚨 ALERT: HAZARDOUS OBJECT DETECTED")
             st.markdown(f"**Risk Confidence:** {confidence:.2f}%")
-            st.image("https://media.giphy.com/media/5wFS6a1PE62lKUWXyx/giphy.gif")
+            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzIzNzRqdzBpMnZnOWNtMGtyMm0xaml3OGRkOTJ1NzkweDNxc2VpbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dC9I6hjH33wiuNXG0D/giphy.gif")
         else:
             confidence = probs[0] * 100
             st.success(f"✅ STATUS: SAFE")
             st.markdown(f"The object poses no immediate threat. (Confidence: {confidence:.2f}%)")
+            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHR0bmM3NW80NzZ6bm53cDlwd3dlMW8yYXRuN2gyZ212aThreG8zNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/n5iPVLeA1fvb0IYU5W/giphy.gif")
             
     except Exception as e:
         st.warning(f"Something went wrong during prediction: {e}")
