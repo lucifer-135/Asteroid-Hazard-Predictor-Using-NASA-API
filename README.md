@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ```
 
 ### Step 3: Configure your API Key
-* Open the train_model.py file.
+* Open the ```train_model.py``` file.
 * Look for the line: ```API_KEY = 'YOUR_API_KEY_HERE'```
 * Paste your actual NASA key inside the quotes.
 
