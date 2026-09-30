@@ -64,6 +64,17 @@ st.write("---")
 # Execution Logic
 if st.button("Run Risk Assessment 🚀", use_container_width=True):
     
+    # Input validation
+    if d_min < 0 or d_max < 0:
+        st.warning("⚠️ Diameter values cannot be negative.")
+        st.stop()
+    if d_min > d_max:
+        st.warning("⚠️ Min Diameter cannot be greater than Max Diameter.")
+        st.stop()
+    if v_rel < 0 or miss_dist < 0:
+        st.warning("⚠️ Velocity and Miss Distance cannot be negative.")
+        st.stop()
+    
     # Organizing features to match the training shape
     # [magnitude, min_dia, max_dia, velocity, distance]
     feats = np.array([[abs_mag, d_min, d_max, v_rel, miss_dist]])
@@ -79,12 +90,12 @@ if st.button("Run Risk Assessment 🚀", use_container_width=True):
             confidence = probs[1] * 100
             st.error(f"🚨 ALERT: HAZARDOUS OBJECT DETECTED")
             st.markdown(f"**Risk Confidence:** {confidence:.2f}%")
-            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzIzNzRqdzBpMnZnOWNtMGtyMm0xaml3OGRkOTJ1NzkweDNxc2VpbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dC9I6hjH33wiuNXG0D/giphy.gif")
+            st.image("hazardous.png")
         else:
             confidence = probs[0] * 100
             st.success(f"✅ STATUS: SAFE")
             st.markdown(f"The object poses no immediate threat. (Confidence: {confidence:.2f}%)")
-            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHR0bmM3NW80NzZ6bm53cDlwd3dlMW8yYXRuN2gyZ212aThreG8zNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/n5iPVLeA1fvb0IYU5W/giphy.gif")
+            st.image("Safe.png")
             
     except Exception as e:
         st.warning(f"Something went wrong during prediction: {e}")

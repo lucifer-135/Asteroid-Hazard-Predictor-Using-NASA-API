@@ -1,4 +1,4 @@
-# ☄️ Asteroid Hazard Predictor Using NASA API and MACHINE LEARNING
+# ☄️ Asteroid Hazard Predictor Using NASA API and Machine Learning
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red)
@@ -11,7 +11,7 @@ This project is an end-to-end Machine Learning application that predicts whether
 It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to handle severe class imbalance (less than 1% of asteroids are hazardous), and runs a **Random Forest Classifier** to assess impact risk. The model is deployed via a user-friendly **Streamlit** web interface.
 
 ### 📸 Project Demo
-![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png)
+![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png?raw=true)
 
 ---
 
@@ -25,9 +25,24 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 ---
 
+## 📁 Project Structure
+```
+├── app.py                      # Streamlit web application
+├── train_model.ipynb           # Data pipeline + model training notebook
+├── asteroid_hazard_model.pkl   # Trained Random Forest model
+├── nasa_asteroids_big.csv      # Raw dataset collected from NASA API
+├── requirements.txt            # Python dependencies
+├── hazardous.png               # UI asset — hazardous result
+├── Safe.png                    # UI asset — safe result
+├── demo.png                    # README demo screenshot
+└── README.md
+```
+
+---
+
 ## ⚙️ Key Features & Methodology
 
-### 1. Automated Data Pipeline (`train_model.pynb`)
+### 1. Automated Data Pipeline (`train_model.ipynb`)
 * Connected to the NASA API to fetch 8 weeks of historical asteroid data.
 * Parsed complex nested JSON responses into a structured Pandas DataFrame.
 * Extracted key physical features: `Absolute Magnitude`, `Estimated Diameter`, `Relative Velocity`, and `Miss Distance`.
@@ -60,11 +75,13 @@ pip install -r requirements.txt
 ```
 
 ### Step 3: Configure your API Key
-* Open the ```train_model.pynb``` file.
-* Look for the line: ```API_KEY = 'YOUR_API_KEY_HERE'```
+* Open the `train_model.ipynb` file.
+* Look for the line: `API_KEY = 'YOUR_API_KEY_HERE'`
 * Paste your actual NASA key inside the quotes.
 
 ### Step 4: Launch the App
 ```bash
 streamlit run app.py
 ```
+
+> **⚠️ Security Note:** The `asteroid_hazard_model.pkl` file uses Python's pickle serialization. Only load `.pkl` files from sources you trust.
