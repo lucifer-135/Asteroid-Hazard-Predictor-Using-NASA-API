@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import numpy as np
+import pandas as pd
 import os
 
 # Set up the page layout
@@ -76,8 +77,10 @@ if st.button("Run Risk Assessment 🚀", use_container_width=True):
         st.stop()
     
     # Organizing features to match the training shape
-    # [magnitude, min_dia, max_dia, velocity, distance]
-    feats = np.array([[abs_mag, d_min, d_max, v_rel, miss_dist]])
+    feats = pd.DataFrame([[abs_mag, d_min, d_max, v_rel, miss_dist]],
+                          columns=['absolute_magnitude', 'est_diameter_min',
+                                   'est_diameter_max', 'relative_velocity',
+                                   'miss_distance'])
     
     try:
         prediction = clf.predict(feats)[0]
