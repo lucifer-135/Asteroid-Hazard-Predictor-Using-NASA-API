@@ -90,12 +90,12 @@ if st.button("Run Risk Assessment 🚀", use_container_width=True):
             confidence = probs[1] * 100
             st.error(f"🚨 ALERT: HAZARDOUS OBJECT DETECTED")
             st.markdown(f"**Risk Confidence:** {confidence:.2f}%")
-            st.image("hazardous.png")
+            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzIzNzRqdzBpMnZnOWNtMGtyMm0xaml3OGRkOTJ1NzkweDNxc2VpbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dC9I6hjH33wiuNXG0D/giphy.gif")
         else:
             confidence = probs[0] * 100
             st.success(f"✅ STATUS: SAFE")
             st.markdown(f"The object poses no immediate threat. (Confidence: {confidence:.2f}%)")
-            st.image("Safe.png")
+            st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHR0bmM3NW80NzZ6bm53cDlwd3dlMW8yYXRuN2gyZ212aThreG8zNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/n5iPVLeA1fvb0IYU5W/giphy.gif")
             
     except Exception as e:
         st.warning(f"Something went wrong during prediction: {e}")
