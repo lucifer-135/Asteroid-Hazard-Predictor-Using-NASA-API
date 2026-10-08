@@ -8,7 +8,7 @@
 ## 📌 Project Overview
 This project is an end-to-end Machine Learning application that predicts whether a Near-Earth Object (asteroid) is **potentially hazardous** to Earth. 
 
-It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to handle class imbalance (only ~5% of asteroids are hazardous), and runs a **Random Forest Classifier** to assess impact risk. The model is deployed via a user-friendly **Streamlit** web interface.
+It fetches real-time telemetry data from the **NASA NeoWs API**, adds each asteroid's orbit geometry (MOID) from **JPL's Small-Body Database**, handles class imbalance (only ~10% of asteroids are hazardous), and runs a **Random Forest Classifier** to assess impact risk. The model is deployed via a user-friendly **Streamlit** web interface.
 
 ### 📸 Project Demo
 ![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png?raw=true)
@@ -23,7 +23,7 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 ## 🛠️ Tech Stack
 * **Language:** Python
-* **Data Source:** [NASA NeoWs REST API](https://api.nasa.gov/)
+* **Data Sources:** [NASA NeoWs REST API](https://api.nasa.gov/), [JPL Small-Body Database Query API](https://ssd-api.jpl.nasa.gov/doc/sbdb_query.html)
 * **Machine Learning:** Scikit-Learn (Random Forest), Imbalanced-Learn (SMOTE)
 * **Data Processing:** Pandas, NumPy
 * **Frontend:** Streamlit
@@ -36,7 +36,7 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 ├── app.py                      # Streamlit web application
 ├── train_model.ipynb           # Data pipeline, model evaluation + training notebook
 ├── asteroid_hazard_model.pkl   # Trained Random Forest model
-├── nasa_asteroids_big.csv      # Raw dataset collected from NASA API
+├── nasa_asteroids_big.csv      # Dataset collected from the NASA NeoWs + JPL SBDB APIs
 ├── requirements.txt            # Python dependencies
 ├── hazardous.png               # UI asset — hazardous result
 ├── Safe.png                    # UI asset — safe result
@@ -49,12 +49,13 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 ## ⚙️ Key Features & Methodology
 
 ### 1. Automated Data Pipeline (`train_model.ipynb`)
-* Connected to the NASA API to fetch 8 weeks of historical asteroid data.
+* Connected to the NASA API to fetch 26 weeks of historical asteroid data (January–June 2023), keeping one row per asteroid.
 * Parsed complex nested JSON responses into a structured Pandas DataFrame.
 * Extracted key physical features: `Absolute Magnitude`, `Estimated Diameter`, `Relative Velocity`, and `Miss Distance`.
+* Added each asteroid's **MOID** (Minimum Orbit Intersection Distance — how close its orbit ever comes to Earth's orbit) from JPL's Small-Body Database in a single bulk request, matched by asteroid designation.
 
 ### 2. Handling Class Imbalance (The Core Challenge)
-* **Problem:** Real-world data is imbalanced (roughly 19:1 Safe vs. Hazardous — only 55 of 1,095 asteroids in the dataset are hazardous). A standard model would bias towards "Safe" and miss actual threats.
+* **Problem:** Real-world data is imbalanced (roughly 9:1 Safe vs. Hazardous — only 103 of 1,055 asteroids in the dataset are hazardous). A standard model would bias towards "Safe" and miss actual threats.
 * **Solution:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** to generate synthetic examples of hazardous asteroids during training, ensuring the model learns robust decision boundaries.
 
 ### 3. Model Training & Evaluation
@@ -63,15 +64,19 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, processes it to
 
 | Model | Recall (hazardous caught) | Precision (alerts that are real) | F1 |
 |---|---|---|---|
-| **RF + SMOTE** (deployed) | **0.64 ± 0.16** | 0.35 ± 0.08 | 0.45 |
-| RF without SMOTE | 0.39 ± 0.22 | 0.58 ± 0.23 | 0.45 |
-| Rule: H ≤ 22 (no-ML baseline) | 1.00 ± 0.00 | 0.30 ± 0.04 | 0.46 |
+| **RF + SMOTE** (deployed) | **0.980 ± 0.040** | **0.991 ± 0.019** | **0.985** |
+| RF + SMOTE without MOID | 0.664 ± 0.099 | 0.378 ± 0.072 | 0.480 |
+| RF without SMOTE | 0.974 ± 0.040 | 0.991 ± 0.019 | 0.982 |
+| Rule: H ≤ 22 (no-ML baseline) | 1.000 ± 0.000 | 0.297 ± 0.022 | 0.457 |
+| Rule: H ≤ 22 and MOID ≤ 0.05 au (NASA's definition) | 1.000 ± 0.000 | 0.991 ± 0.019 | 0.995 |
 
-* **SMOTE raises recall from 39% to 64%**, at the cost of more false alarms — the right trade-off for a safety tool that should minimise missed threats.
+* **MOID is the key feature:** adding it raises recall from 66% to 98% and precision from 38% to 99%. It is also the model's most important feature.
+* **SMOTE now makes little difference** (98.0% vs 97.4% recall), because with MOID available the two classes separate cleanly.
 
-### 4. Limitations & Next Steps
-* **The model does not beat a simple rule** that flags every asteroid with absolute magnitude H ≤ 22. NASA defines a Potentially Hazardous Asteroid as **H ≤ 22.0 *and* Minimum Orbit Intersection Distance (MOID) ≤ 0.05 au**. Every hazardous asteroid in the dataset has H ≤ 22, but MOID is not one of the features — `Miss Distance` is the distance at one particular close approach, not the closest possible distance between the two orbits. Without it, the model cannot reliably tell which bright asteroids are hazardous.
-* **Next step:** add MOID as a feature. It is available as `orbital_data.minimum_orbit_intersection` from the NeoWs per-asteroid lookup endpoint (`/neo/rest/v1/neo/{id}`).
+### 4. Limitations
+* **The model is relearning NASA's definition.** NASA labels an asteroid a Potentially Hazardous Asteroid when **H ≤ 22.0 *and* MOID ≤ 0.05 au**, and that two-condition rule scores as well as the Random Forest. The model's rare misses are asteroids sitting right on one of the two thresholds, so the ML model is best seen as a demonstration of the workflow rather than an improvement over the rule.
+* **Velocity and miss distance carry almost no signal** — being hazardous is a property of the orbit, not of one particular flyby. NeoWs also computes the diameter estimates directly from H, so they duplicate H — the app therefore derives the diameter range from H instead of asking for it, so the two always match.
+* **NeoWs data changes over time.** Its feed now returns fewer close approaches for early 2023 than when this project's first dataset was collected, which is why the dataset was rebuilt over a 26-week window. Its hazard flag can also lag JPL's latest orbit solutions (e.g. 2012 KC6 meets the definition but isn't flagged).
 
 ---
 
@@ -96,9 +101,11 @@ pip install -r requirements.txt
 The notebook runs end-to-end on the cached `nasa_asteroids_big.csv`, so no API key is needed to reproduce the evaluation and the saved model.
 
 To download fresh data from NASA instead:
-* Open the `train_model.ipynb` file.
-* Look for the line: `API_KEY = 'YOUR_API_KEY_HERE'`
-* Paste your actual NASA key inside the quotes and set `REFETCH_DATA = True`.
+* Create a `.env` file in the project folder containing your key (it is gitignored, so the key never gets committed):
+  ```
+  NASA_API_KEY=your_key_here
+  ```
+* Open `train_model.ipynb`, set `REFETCH_DATA = True`, and run all cells. Without a key the notebook falls back to NASA's `DEMO_KEY`, which is limited to a few requests per day.
 
 ### Step 4: Launch the App
 ```bash
