@@ -63,7 +63,7 @@ with c2:
 st.write("---")
 
 # Execution Logic
-if st.button("Run Risk Assessment 🚀", use_container_width=True):
+if st.button("Run Risk Assessment 🚀", width="stretch"):
     
     # Input validation
     if d_min < 0 or d_max < 0:

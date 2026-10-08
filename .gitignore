@@ -17,6 +17,9 @@ venv/
 .vscode/
 .idea/
 
+# Claude Code
+.claude/launch.json
+
 # OS
 .DS_Store
 Thumbs.db
