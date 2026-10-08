@@ -1,0 +1,8 @@
+[theme]
+# Deep-space dark theme. The accent keeps white button text above 4.5:1 contrast
+# while staying as readable as possible when used as text on the dark background.
+base = "dark"
+primaryColor = "#6E69D3"
+backgroundColor = "#0B0F1A"
+secondaryBackgroundColor = "#151B2B"
+textColor = "#E6E9F0"

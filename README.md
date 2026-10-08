@@ -34,6 +34,7 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, adds each aster
 ## 📁 Project Structure
 ```
 ├── app.py                      # Streamlit web application
+├── .streamlit/config.toml      # App theme (dark, accessible contrast)
 ├── train_model.ipynb           # Data pipeline, model evaluation + training notebook
 ├── asteroid_hazard_model.pkl   # Trained Random Forest model
 ├── nasa_asteroids_big.csv      # Dataset collected from the NASA NeoWs + JPL SBDB APIs
@@ -73,7 +74,12 @@ It fetches real-time telemetry data from the **NASA NeoWs API**, adds each aster
 * **MOID is the key feature:** adding it raises recall from 66% to 98% and precision from 38% to 99%. It is also the model's most important feature.
 * **SMOTE now makes little difference** (98.0% vs 97.4% recall), because with MOID available the two classes separate cleanly.
 
-### 4. Limitations
+### 4. Interactive Web App (`app.py`)
+* **One-click real examples:** load real asteroids from the dataset (e.g. hazardous 4486 Mithra, or 2018 CB, whose orbit crosses Earth's but which is too small to count).
+* **Plain-language inputs:** each value is translated as you type — the size range estimated from H, MOID and miss distance in km and Earth-Moon distances, velocity in km/s.
+* **Explained results:** the report shows the hazard probability and checks the asteroid against both conditions of NASA's definition, flagging the rare cases where the model and the rule disagree.
+
+### 5. Limitations
 * **The model is relearning NASA's definition.** NASA labels an asteroid a Potentially Hazardous Asteroid when **H ≤ 22.0 *and* MOID ≤ 0.05 au**, and that two-condition rule scores as well as the Random Forest. The model's rare misses are asteroids sitting right on one of the two thresholds, so the ML model is best seen as a demonstration of the workflow rather than an improvement over the rule.
 * **Velocity and miss distance carry almost no signal** — being hazardous is a property of the orbit, not of one particular flyby. NeoWs also computes the diameter estimates directly from H, so they duplicate H — the app therefore derives the diameter range from H instead of asking for it, so the two always match.
 * **NeoWs data changes over time.** Its feed now returns fewer close approaches for early 2023 than when this project's first dataset was collected, which is why the dataset was rebuilt over a 26-week window. Its hazard flag can also lag JPL's latest orbit solutions (e.g. 2012 KC6 meets the definition but isn't flagged).
