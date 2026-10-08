@@ -10,6 +10,10 @@ This project is an end-to-end Machine Learning application that predicts whether
 
 It fetches real-time telemetry data from the **NASA NeoWs API**, adds each asteroid's orbit geometry (MOID) from **JPL's Small-Body Database**, handles class imbalance (only ~10% of asteroids are hazardous), and runs a **Random Forest Classifier** to assess impact risk. The model is deployed via a user-friendly **Streamlit** web interface.
 
+## 🚀 Live Demo
+
+👉 **[Try the Asteroid Hazard Predictor](https://asteroid-hazard-predictor-using-nasa-api.streamlit.app/)**
+
 ### 📸 Project Demo
 ![Demo Screenshot](https://github.com/lucifer-135/Asteroid-Hazard-Predictor-Using-NASA-API/blob/main/demo.png?raw=true)
 
